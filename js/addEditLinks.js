@@ -1,4 +1,7 @@
-const relativePath = window.location.pathname.replace('/scalafix/docs/', '').replace('.html', '.md');
+let relativePath = window.location.pathname.replace('/scalafix/docs/', '').replace('.html', '.md');
+if (relativePath === '') {
+  relativePath = 'index.md'
+}
 const repo = 'gabro/scalafix';
 const branch = 'microsite';
 const basePath = `https://github.com/${repo}/edit/${branch}/website/src/main/tut/docs`;
