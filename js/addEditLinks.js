@@ -1,7 +1,8 @@
 const width = window.document.documentElement.clientWidth;
+const nav = document.querySelector('.nav .pull-right')
 // The edit link is too large below this width and it's not useful anyway,
 // as the user is probably on a mobile device.
-if (width > 500) {
+if (width > 500 && nav) {
   const baseUrl = '/scalafix';
   const docsUrl = 'docs';
   let relativePath = window.location.pathname.replace(`${baseUrl}/${docsUrl}/`, '').replace('.html', '.md');
@@ -16,4 +17,5 @@ if (width > 500) {
   const text = 'EDIT THIS PAGE ON GITHUB';
   editLink.innerHTML = `<a href='${target}' target='_blank'><span>${text}</span></a>`
   document.querySelector('.nav .pull-right').appendChild(editLink);
+  nav.appendChild(editLink);
 }
