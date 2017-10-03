@@ -8,6 +8,5 @@ To create custom rules, see @sect.ref{scalafix-core}.
 
 
 
-
-  @sect{Planned rules...}
-    See @lnk("here", "https://github.com/scalacenter/scalafix/labels/rule").
+## Planned rules
+See [here](https://github.com/scalacenter/scalafix/labels/rule).
