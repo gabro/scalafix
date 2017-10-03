@@ -37,14 +37,14 @@ body.docs {
   background: #F4F3F4; }
 
 #content code {
-  color: #837F84;
+  color: rgba(0, 0, 0, 0.8);
   background-color: #F4F3F4; }
 
 #sidebar-wrapper {
   background: #203F4A; }
 
 #page-content-wrapper .nav a {
-  color: #837F84; }
+  color: rgba(0, 0, 0, 0.8); }
   #page-content-wrapper .nav a:hover {
     color: #453E46; }
   #page-content-wrapper .nav a i {
