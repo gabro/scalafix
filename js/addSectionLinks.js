@@ -4,6 +4,6 @@ $("h2, h3, h4, h5, h6").each(function(i, el) {
   id = $el.attr('id');
   icon = '<i class="fa fa-link"></i>';
   if (id) {
-    return $el.prepend($("<a />").addClass("header-link").attr("href", "#" + id).html(icon));
+    return $el.prepend($("<a />").addClass("header-anchor-link").attr("href", "#" + id).html(icon));
   }
 });
