@@ -20,9 +20,107 @@ wget <span class="nt">-O</span> scalafix https://github.com/scalacenter/scalafix
 
 <p>Once the scalafix cli is installed, consult the –help page for further usage instructions.</p>
 
-<blockquote>
-  <p>TODO(gabro): automatically include help message?</p>
-</blockquote>
+<div class="highlighter-rouge"><div class="highlight"><pre class="highlight"><code>
+scalafix 0.5.2-52-a751b182-20171010-1003
+Usage: scalafix [options] [&lt;file&gt;...]
+  --usage  
+        Print usage and exit
+  --help | -h  
+        Print help message and exit
+  --version | -v  
+        Print version number and exit
+  --verbose  
+        If set, print out debugging inforation to stderr.
+  --config | -c  &lt;.scalafix.conf&gt;
+        File path to a .scalafix.conf configuration file.
+  --config-str | -c  &lt;imports.organize=false&gt;
+        String representing scalafix configuration
+  --sourceroot  &lt;/foo/myproject&gt;
+        Absolute path passed to semanticdb with
+	-P:semanticdb:sourceroot:&lt;path&gt;. Relative filenames persisted in the
+	Semantic DB are absolutized by the sourceroot. Defaults to current
+	working directory if not provided.
+  --classpath  &lt;entry1.jar:entry2.jar:target/scala-2.12/classes&gt;
+        java.io.File.pathSeparator separated list of directories or jars
+	containing '.semanticdb' files. The 'semanticdb' files are emitted by
+	the semanticdb-scalac compiler plugin and are necessary for semantic
+	rules like ExplicitResultTypes to function.
+  --classpath-auto-roots  &lt;target:project/target&gt;
+        Automatically infer --classpath starting from these directories.
+	Ignored if --classpath is provided.
+  --no-strict-semanticdb  
+        Disable validation when loading semanticdb files.
+  --rules | -r  &lt;ProcedureSyntax OR file:LocalFile.scala OR scala:full.Name OR https://gist.com/.../Rule.scala&gt;
+        Scalafix rules to run.
+  --stdout  
+        If set, print fix to stdout instead of writing to file.
+  --test  
+        Exit non-zero code if files have not been fixed. Won't write to files.
+  --out-from  &lt;/shared/&gt;
+        Regex that is passed as first argument to
+	fileToFix.replaceAll(outFrom, outTo)
+  --out-to  &lt;/custom/&gt;
+        Replacement string that is passed as second argument to
+	fileToFix.replaceAll(outFrom, outTo)
+  --exclude  &lt;core Foobar.scala&gt;
+        Space separated list of regexes to exclude which files to fix. If a
+	file match one of the exclude regexes, then it will not get fixed.
+	Defaults to excluding no files.
+  --single-thread  
+        If true, run on single thread. If false (default), use all available
+	cores
+  --no-sys-exit  
+        If true, does not sys.exit at the end. Useful for example in
+	sbt-scalafix
+  --quiet-parse-errors  
+        Don't report parse errors for non-explictly passed filepaths.
+  --bash  
+        Print out bash completion file for scalafix. To install on scalafix
+	--bash &gt; /usr/local/etc/bash_completion.d/scalafix # Mac scalafix
+	--bash &gt; /etc/bash_completion.d/scalafix # Linux
+  --zsh  
+        Print out zsh completion file for scalafix. To install: scalafix --zsh
+	&gt; /usr/local/share/zsh/site-functions/_scalafix
+  --non-interactive  
+        Don't use fancy progress bar.
+  --project-id  &lt;value&gt;
+        String ID to prefix reported messages with
+Available rules: DottyKeywords, NoValInForComprehension, RemoveXmlLiterals, VolatileLazyVal, ProcedureSyntax, ExplicitUnit, DottyVolatileLazyVal, DottyVarArgPattern, NoInfer, Sbt1, ExplicitResultTypes, ExplicitReturnTypes, RemoveUnusedImports, RemoveUnusedTerms, NoAutoTupling, Disable
+
+NOTE. The command line tool is mostly intended to be invoked programmatically
+from build-tool integrations such as sbt-scalafix. The necessary fixture to run
+semantic rules is tricky to setup manually.
+
+Scalafix chooses which files to fix according to the following rules:
+- scalafix &lt;directory&gt; &lt;rule&gt; finds *.scala files in &lt;directory&gt;
+- when &lt;rule&gt; is semantic
+  - if --classpath and --sourceroot are provided, then those are used to find .semanticdb files
+  - otherwise, Scalafix will automatically look for META-INF/semanticdb directories from the
+    current working directory.
+
+Examples (semantic):
+  $ scalafix # automatically finds .semanticdb files and runs rule configured in .scalafix.conf.
+  $ scalafix &lt;directory&gt; # same as above except only run on files in &lt;directory&gt;
+  $ scalafix --rules RemoveUnusedImports # same as above but run RemoveUnusedImports.
+  $ scalafix --classpath &lt;foo.jar:target/classes&gt; # explicitly pass classpath, --sourceroot is cwd.
+  $ scalafix --classpath &lt;foo.jar:target/classes&gt; --sourceroot &lt;directory&gt;
+  $ cat .scalafix.conf
+  rules = [ProcedureSyntax]
+  $ scalafix Code.scala # Same as --rules ProcedureSyntax
+
+Exit status codes:
+ Ok=0
+ UnexpectedError=1
+ ParseError=2
+ ScalafixError=4
+ InvalidCommandLineOption=8
+ MissingSemanticApi=16
+ StaleSemanticDB=32
+ TestFailed=64
+ LinterError=128
+
+
+</code></pre></div></div>
 </section></div></div></div></div><script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/1.11.3/jquery.min.js"></script><script src="https://cdnjs.cloudflare.com/ajax/libs/twitter-bootstrap/3.3.7/js/bootstrap.min.js"></script><script src="/scalafix/highlight/highlight.pack.js"></script><script>hljs.configure({
 languages:['scala','java','bash']
 });
